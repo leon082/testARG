@@ -1,4 +1,4 @@
-package co.com.nexura.test.dashboard;
+package test.uniajc.ARG;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -8,71 +8,68 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import org.primefaces.event.DragDropEvent;
+import org.primefaces.event.TreeDragDropEvent;
+import org.primefaces.model.TreeNode;
 
 @ManagedBean(name = "dndCarsView")
 @ViewScoped
 public class DNDCarsView implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-	@ManagedProperty("#{carService}")
-	private CarService service;
+    private List<Actividad> actividades;
 
-	private List<Car> cars;
-	private List<Car> cars1;
+    private Actividad selectedCar;
 
-	private List<Car> droppedCars;
+    @PostConstruct
+    public void init() {
+        actividades = createAct();
 
-	private Car selectedCar;
+    }
 
-	@PostConstruct
-	public void init() {
-		cars = service.createCars(4);
-		droppedCars = new ArrayList<Car>();
-	}
+    public List<Actividad> createAct() {
+        List<Actividad> list = new ArrayList<>();
+        list.add(new Actividad("1", "06/05/2017", "06/05/2018", "8:00pm", "19:00", "Correr", "Biblioteca"));
+        list.add(new Actividad("1", "08/05/2017", "08/05/2018", "5:00pm", "22:00", "Trotar", "Salon"));
+        return list;
+    }
 
-	public void onCarDrop(DragDropEvent ddEvent) {
-		Car car = ((Car) ddEvent.getData());
-		System.out.println(DNDCarsView.class.getName()+".log(onCarDrop)");
-		droppedCars.add(car);
-		cars.remove(car);
-	}
+    public void onDragDrop(TreeDragDropEvent event) {
+        TreeNode dragActividadOrigen = event.getDragNode();
+        TreeNode dragCajaOrigen = dragActividadOrigen.getParent();
+        TreeNode dropCajaDestino = event.getDropNode();
+        TreeNode dropActividadDestino =  dropCajaDestino.getChildren().get(0);
+        
+        
+        
+        int dropIndex = event.getDropIndex();
+        
 
-	public void setService(CarService service) {
-		this.service = service;
-	}
+        //FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dragged " + dragNode.getData(), "Dropped on " + dropNode.getData() + " at " + dropIndex);
+        //FacesContext.getCurrentInstance().addMessage(null, message);
+    }
+    
+    public void actualizarActividades(){
+        
+    }
 
-	public List<Car> getCars() {
-		return cars;
-	}
+    public List<Actividad> getActividades() {
+        return actividades;
+    }
 
-	public List<Car> getDroppedCars() {
-		return droppedCars;
-	}
+    public void setActividades(List<Actividad> actividades) {
+        this.actividades = actividades;
+    }
 
-	public Car getSelectedCar() {
-		return selectedCar;
-	}
+    public Actividad getSelectedCar() {
+        return selectedCar;
+    }
 
-	public void setSelectedCar(Car selectedCar) {
-		this.selectedCar = selectedCar;
-	}
+    public void setSelectedCar(Actividad selectedCar) {
+        this.selectedCar = selectedCar;
+    }
 
-	/**
-	 * @return the cars1
-	 */
-	public List<Car> getCars1() {
-		return cars1;
-	}
-
-	/**
-	 * @param cars1
-	 *            the cars1 to set
-	 */
-	public void setCars1(List<Car> cars1) {
-		this.cars1 = cars1;
-	}
 }

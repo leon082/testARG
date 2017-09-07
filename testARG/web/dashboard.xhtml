@@ -30,60 +30,49 @@
             <div style="height:500px">
                 <h:form>
                     <p:growl id="msgs" showDetail="true" />
-                    <p:panelGrid columns="2" style="border:0" styleClass="tablaIni">
+                    <p:panelGrid columns="2" style="border:0" styleClass="tablaIni" id="panel">
                         <p:panel  style="border:1" >
-                            <p:dataTable value = "#{dndCarsView.cars}" var="car">
+                            <p:dataTable id="table" value = "#{dndCarsView.actividades}" var="act">
                                 <p:column headerText="Hora inicio">
-                                    <p:inputText value="#{car.brand}"></p:inputText>                  
+                                    <p:inputText value="#{act.horaIni}"></p:inputText>                  
                                 </p:column>
                                 <p:column headerText="Hora Fin">
-                                    <p:inputText value="#{car.color}"></p:inputText> 
-
+                                    <p:inputText value="#{act.horaFin}"></p:inputText> 
                                 </p:column>
                                 <p:column headerText="Fecha Inicio">
-                                    <p:inputText value="#{car.price}"></p:inputText>                
+                                    <p:inputText value="#{act.fechaIni}"></p:inputText>                
                                 </p:column>
                                 <p:column headerText="Fecha Fin">
-                                    <p:inputText value="#{car.year}"></p:inputText>              
+                                    <p:inputText id="year" value="#{act.horaFin}"></p:inputText>
+
+                                </p:column>                                
+                                <p:column headerText="Salon de Clases">   
+                                    <p:repeat value="#{dndCarsView.actividades}" var="actividad">
+                                        <p:tree id="tree1" var="node" selectionMode="single" 
+                                                draggable="true" droppable="true" dragdropScope="demo"
+                                                value="#{act.lugar}"  rendered="#{actividad.idLugar=='Salon'}">                                        
+                                            <p:treeNode>
+                                                <h:outputText value="#{actividad.lugar}"/>
+                                            </p:treeNode>
+                                        </p:tree>
+                                    </p:repeat>
                                 </p:column>
+
+                                <p:column headerText="Biblioteca">                                   
+                                    <p:repeat value="#{dndCarsView.actividades}" var="actividad">
+                                        <p:tree id="tree2" var="node" selectionMode="single" 
+                                                draggable="true" droppable="true" dragdropScope="demo"
+                                                value="#{act.lugar}"  rendered="#{actividad.idLugar=='Biblioteca'}">                                        
+                                            <p:treeNode >
+                                                <h:outputText value="#{actividad.lugar}"  />
+                                            </p:treeNode>                                        
+                                        </p:tree>
+                                    </p:repeat>
+                                </p:column>
+
+                                <p:ajax event="dragdrop" listener="#{dndCarsView.onDragDrop}" update=":panel" />
                             </p:dataTable>
                         </p:panel>
-                        <p:dashboard id="board" model="#{dashboardView.model}">
-
-
-                            <p:panel id="sports" header="Sports" styleClass="panel">
-                                <h:outputText value="Sports Content" />
-                            </p:panel>
-
-                            <p:panel id="finance" header="Finance"  styleClass="panel">
-                                <h:outputText value="Finance Content" />
-                            </p:panel>
-
-                            <p:panel id="lifestyle" header="Lifestyle"  styleClass="panel">
-                                <h:outputText value="Lifestyle Content"  />
-                            </p:panel>
-
-                            <p:panel id="weather" header="Weather"  styleClass="panel">
-                                <h:outputText value="Weather Content" />
-                            </p:panel>
-
-                            <p:panel id="politics" header="Politics"  styleClass="panel">
-                                <h:outputText value="Politics Content" />
-                            </p:panel>
-
-                            <p:panel id="blank" header="Lugar vacío"  styleClass="panel">
-                                <h:outputText value="Lug vacío" />
-                            </p:panel>
-
-                            <p:panel id="academic" header="Academic"  styleClass="panel">
-                                <h:outputText value="Academic Content" />
-                            </p:panel>
-                        </p:dashboard>
-
-
-
-
-
                     </p:panelGrid>
                     <div style="clear:both" />
                 </h:form>
