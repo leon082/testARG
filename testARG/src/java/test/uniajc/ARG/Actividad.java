@@ -9,7 +9,7 @@ public class Actividad implements Serializable {
     /**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     public String id;
     public String fechaIni;
     public String fechaFin;
@@ -17,13 +17,20 @@ public class Actividad implements Serializable {
     public String horaFin;
     public String idLugar;
     public String descripcion;
-    private TreeNode lugar;
+    public String detalle;
+    //public TreeNode lugar;
 
     public Actividad() {
     
     }
+
+    public Actividad(String descripcion, String id) {
+        this.descripcion = descripcion;
+        this.id=id;
+    }
     
-    public Actividad(String id, String fechaIni, String fechaFin, String horaIni, String horaFin , String nombreAct, String idLugar) {
+    
+    public Actividad(String id, String fechaIni, String fechaFin, String horaIni, String horaFin , String nombreAct, String idLugar,String detalle) {
        this.id=id;
        this.fechaIni=fechaIni;
        this.fechaFin=fechaFin;
@@ -31,8 +38,9 @@ public class Actividad implements Serializable {
        this.horaFin=horaFin;
        this.idLugar=idLugar;
        this.descripcion=nombreAct;
-       lugar = new DefaultTreeNode(idLugar, null);
-       TreeNode act = new DefaultTreeNode(descripcion, lugar);
+       this.detalle=detalle;
+       //lugar = new DefaultTreeNode(idLugar, null);
+       //TreeNode act = new DefaultTreeNode(descripcion, lugar);
     }
     
    
@@ -76,13 +84,7 @@ public class Actividad implements Serializable {
         this.horaFin = horaFin;
     }
 
-    public TreeNode getLugar() {
-        return lugar;
-    }
-
-    public void setLugar(TreeNode lugar) {
-        this.lugar = lugar;
-    }
+   
 
     public String getIdLugar() {
         return idLugar;
@@ -92,6 +94,23 @@ public class Actividad implements Serializable {
         this.idLugar = idLugar;
     }
 
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public String getDetalle() {
+        return detalle;
+    }
+
+    public void setDetalle(String detalle) {
+        this.detalle = detalle;
+    }
+
+    
     
    
 
