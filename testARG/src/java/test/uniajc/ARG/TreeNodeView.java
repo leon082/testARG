@@ -108,6 +108,10 @@ public class TreeNodeView implements Serializable {
         }
         return items;
     }
+    
+    public void cargarActividad(){
+       v_select_lugar= selectedActividad.getIdLugar();
+    }
 
     public List<Actividad> getActividades() {
         return actividades;

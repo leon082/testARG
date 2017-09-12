@@ -57,9 +57,10 @@
                         <p:column  headerText="Notificar Via Correo" style="text-align: center">
                             <p:selectBooleanCheckbox value="#{actividad.notificacion}"/>
                         </p:column> 
+                        
                         <p:column style="width:24px">
-                            <p:commandLink update=":form:actividadPanel" oncomplete="PF('actividadDialog').show()" title="View Detail" styleClass="ui-icon ui-icon-search">
-                                <f:setPropertyActionListener value="#{actividad}" target="#{dndCarsView.selectedActividad}" />
+                            <p:commandLink update=":form:actividadPanel" oncomplete="PF('actividadDialog').show()" title="View Detail" styleClass="ui-icon ui-icon-search" >
+                                <f:setPropertyActionListener value="#{actividad}" target="#{dndCarsView.selectedActividad}"  />
                             </p:commandLink>
                         </p:column>
                         
