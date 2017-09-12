@@ -18,6 +18,7 @@ public class Actividad implements Serializable {
     public String idLugar;
     public String descripcion;
     public String detalle;
+    public boolean notificacion;
     //public TreeNode lugar;
 
     public Actividad() {
@@ -108,6 +109,14 @@ public class Actividad implements Serializable {
 
     public void setDetalle(String detalle) {
         this.detalle = detalle;
+    }
+
+    public boolean isNotificacion() {
+        return notificacion;
+    }
+
+    public void setNotificacion(boolean notificacion) {
+        this.notificacion = notificacion;
     }
 
     

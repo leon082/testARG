@@ -58,9 +58,9 @@ public class TreeNodeView implements Serializable {
     }
 
     public void cambiarLugar() {
-        System.out.println("Entro a cambiarLugar()");
         quitarNodo();
         ponerNodo();
+        v_select_lugar="";
     }
 
     public void quitarNodo() {

@@ -10,15 +10,17 @@
         <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
         <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" />
         <link type="text/css" rel="stylesheet" href="css/default.css" />
+        <link type="text/css" rel="stylesheet" href="estilos/style.css" />
         <link type="text/css" rel="stylesheet"
               href="css/fonts/font-awesome.css" />
     </h:head>
     <h:body>
+        
         <div style="height: 500px">
             <div style="height:500px">               
                 <h:form  id="form">                    
                     <p:treeTable value="#{dndCarsView.tabla}" var="actividad" editable="true" editMode="cell">
-                        <f:facet name="header">
+                        <f:facet name="header" >
                             Actividades
                         </f:facet>
                         <p:column headerText="Lugar"> 
@@ -51,11 +53,18 @@
                                 <f:facet name="input"><p:inputText value="#{actividad.horaFin}" style="width:100%"/></f:facet>
                             </p:cellEditor>
                         </p:column>
+                        
+                        <p:column  headerText="Notificar Via Correo" style="text-align: center">
+                            <p:selectBooleanCheckbox value="#{actividad.notificacion}"/>
+                        </p:column> 
                         <p:column style="width:24px">
                             <p:commandLink update=":form:actividadPanel" oncomplete="PF('actividadDialog').show()" title="View Detail" styleClass="ui-icon ui-icon-search">
                                 <f:setPropertyActionListener value="#{actividad}" target="#{dndCarsView.selectedActividad}" />
                             </p:commandLink>
                         </p:column>
+                        
+                        
+                        
                     </p:treeTable> 
 
                     <p:dialog id="dialog" header="Detalle de la Actividad" showEffect="fade" widgetVar="actividadDialog" modal="true" resizable="false">
@@ -73,6 +82,7 @@
                                     <f:selectItem itemLabel="Seleccione" itemValue="" />  
                                     <f:selectItems value="#{dndCarsView.itemsLugares}"/>  
                                 </p:selectOneMenu> 
+                                
                             </p:panelGrid>
                         </p:outputPanel>                        
                         <p:commandButton 
