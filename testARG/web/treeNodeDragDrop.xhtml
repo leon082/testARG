@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:c="http://java.sun.com/jsp/jstl/core"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+        <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" />
+        <link type="text/css" rel="stylesheet" href="css/default.css" />
+        <link type="text/css" rel="stylesheet" href="estilos/style.css" />
+        <link type="text/css" rel="stylesheet" href="css/fonts/font-awesome.css" />
+    </h:head>
+    <h:body>
+        <div style="height: 500px">
+            <div style="height:500px">               
+                <h:form  id="form">                    
+                    <p:treeTable value="#{treeNodeDragDrop.tabla}" var="actividad" editable="true" editMode="cell">
+                        
+                        <f:facet name="header" >
+                            Actividades
+                        </f:facet>
+                        
+                        <p:column headerText="Lugar"> 
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{actividad.descripcion}" /></f:facet>
+                                <f:facet name="input"><p:inputText value="#{actividad.descripcion}" style="width:100%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Fecha Inicio"> 
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{actividad.fechaIni}" /></f:facet>
+                                <f:facet name="input"><p:inputText value="#{actividad.fechaIni}" style="width:100%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Fecha Fin"> 
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{actividad.fechaFin}" /></f:facet>
+                                <f:facet name="input"><p:inputText value="#{actividad.fechaFin}" style="width:100%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Hora Inicio"> 
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{actividad.horaIni}" /></f:facet>
+                                <f:facet name="input"><p:inputText value="#{actividad.horaIni}" style="width:100%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Hora Fin"> 
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{actividad.horaFin}" /></f:facet>
+                                <f:facet name="input"><p:inputText value="#{actividad.horaFin}" style="width:100%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column  headerText="Notificar Via Correo" style="text-align: center">
+                            <p:selectBooleanCheckbox value="#{actividad.notificacion}"/>
+                        </p:column> 
+                        <p:column style="width:24px">
+                            <p:commandLink update=":form:actividadPanel" oncomplete="PF('actividadDialog').show()" title="View Detail" styleClass="ui-icon ui-icon-search" >
+                                <f:setPropertyActionListener value="#{actividad}" target="#{treeNodeDragDrop.selectedActividad}"  />
+                            </p:commandLink>
+                        </p:column>
+                        
+                    </p:treeTable> 
+
+                    <p:separator></p:separator>
+
+                    <p:commandButton value="Editar" oncomplete="PF('actividadDialog').show()" icon="ui-icon-pencil" title="Icon Pencil"/>
+
+                    <p:dialog id="dialog" header="Actividades" showEffect="fade" widgetVar="actividadDialog" modal="true" resizable="false" width="800px" height="600px">                        
+                        <p:outputPanel id="actividadPanel">                            
+                            <p:tree id="tree1" value="#{treeNodeDragDrop.tabla}" var="node" selectionMode="single" 
+                                    draggable="true" droppable="true" dragdropScope="demo">
+                                <p:treeNode>
+                                    <h:outputText value="#{node.descripcion}" />
+                                </p:treeNode>
+                            </p:tree>
+                        </p:outputPanel> 
+                        <p:commandButton value="Guardar" actionListener="PF('actividadDialog').hide()" id="iconOnly" update="@form"  icon="ui-icon-disk" title="Icon Only" />
+                    </p:dialog>
+                </h:form>
+            </div>
+        </div>
+    </h:body>
+
+</f:view>
+
+
+
+
+
