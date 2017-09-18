@@ -65,7 +65,7 @@ and open the template in the editor.
                             <p:panelGrid  columns="2" columnClasses="label,value" >
                                 
                                  <h:outputLabel for="codigo" value="Codigo: " />
-                                 <h:inputText id="codigo" value="#{lineTimeBean.actInsert.id}" style="font-weight:bold" />  
+                                 <h:inputText id="codigo" value="#{lineTimeBean.actInsert.codigo}" style="font-weight:bold" />  
                                  
                                  <h:outputLabel for="descripcion" value="Nombre: " />
                                  <h:inputText id="descripcion" value="#{lineTimeBean.actInsert.descripcion}" style="font-weight:bold" /> 
@@ -95,21 +95,6 @@ and open the template in the editor.
                             update="@form"
                             value="Guardar" action="#{lineTimeBean.insertAct()}" icon="ui-icon-disk"/> 
                     </p:dialog>
-                 
-                 
-                 
-                 
-                 
-                 
-                 
-                 
-                 
-                 
-                 
-                 
-                 
-                 
-                 
                  
                  
                 <p:dialog id="dialog" header="Detalle de la Actividad" showEffect="fade" widgetVar="actividadDialog" modal="true" resizable="false">

@@ -12,7 +12,7 @@ package test.uniajc.ARG;
 public class LugarView {
     
     private String idLugar;
-    private String descripLugar;
+   
     private String idActividad;
     private String descripActividad;
 
@@ -24,13 +24,7 @@ public class LugarView {
         this.idLugar = idLugar;
     }
 
-    public String getDescripLugar() {
-        return descripLugar;
-    }
-
-    public void setDescripLugar(String descripLugar) {
-        this.descripLugar = descripLugar;
-    }
+   
 
     public String getIdActividad() {
         return idActividad;

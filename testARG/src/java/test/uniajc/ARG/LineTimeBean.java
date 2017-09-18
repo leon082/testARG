@@ -24,6 +24,7 @@ public class LineTimeBean {
     private List<ActividadView> actividadesView;
     private List<Lugar> gamePlaces;
     private LugarView lugarViewSelected;
+    private int idAct=0;
      //Combos
     private ArrayList<SelectItem> itemsPlaces;
     private String v_select_lugar,v_select_place_change;
@@ -34,7 +35,10 @@ public class LineTimeBean {
     @PostConstruct
     public void init() {
 
-        actividades = new ArrayList<ActividadLineTime>();
+       lugarViewSelected=new LugarView();
+        actividades =createAct();
+        actividadesView=actOrderBy(actividades);
+        // actividades = new ArrayList<ActividadLineTime>();
         gamePlaces = loadPlaces();
         lugarViewSelected=new LugarView ();
         itemsPlaces=Consultar_Lugares_combo();
@@ -45,9 +49,9 @@ public class LineTimeBean {
 
     public List<ActividadLineTime> createAct() {
         List<ActividadLineTime> list = new ArrayList<>();
-        list.add(new ActividadLineTime("PRE", "06/05/2017", "06/05/2018", "8:00pm", "29:00", "Correr", "1", "Correr en el parque"));
-        list.add(new ActividadLineTime("PRE", "06/05/2017", "06/05/2018", "8:00pm", "29:00", "Trotar", "2", "Trotar en el puesto por 30 segundos"));
-        list.add(new ActividadLineTime("P1C", "08/05/2017", "08/05/2018", "5:00pm", "22:00", "saltar", "2", "Saltar lazo 30 rep"));
+        list.add(new ActividadLineTime("1","PRE", "06/05/2017", "06/05/2018", "8:00pm", "29:00", "Correr", "1", "Correr en el parque"));
+        list.add(new ActividadLineTime("2","PRE", "06/05/2017", "06/05/2018", "8:00pm", "29:00", "Trotar", "2", "Trotar en el puesto por 30 segundos"));
+        list.add(new ActividadLineTime("3","P1C", "08/05/2017", "08/05/2018", "5:00pm", "22:00", "saltar", "2", "Saltar lazo 30 rep"));
         //list.add(new ActividadLineTime("PRE", "06/05/2017", "06/05/2018", "8:00pm", "29:00", "Publicar", "3", "Publciar en FBK"));
         //list.add(new ActividadLineTime("P1C", "08/05/2017", "08/05/2018", "5:00pm", "22:00", "Caminar","1", "Saltar lazo 30 rep"));
         return list;
@@ -63,7 +67,7 @@ public class LineTimeBean {
                 int index = 0;
                 for (ActividadView actividadview : actividadesView) {
                     
-                    if (actividadview.getCodigo().trim().equalsIgnoreCase(act.getId().trim()) 
+                    if (actividadview.getCodigo().trim().equalsIgnoreCase(act.getCodigo().trim()) 
                             && actividadview.getFechaFin().trim().equalsIgnoreCase(act.getFechaFin().trim())
                             && actividadview.getFechaIni().trim().equalsIgnoreCase(act.getFechaIni().trim())
                             && actividadview.getHoraFin().trim().equalsIgnoreCase(act.getHoraFin().trim())
@@ -92,7 +96,7 @@ public class LineTimeBean {
 
     public ActividadView createActividadView(ActividadLineTime act) {
         ActividadView actividadView = new ActividadView();
-        actividadView.setCodigo(act.getId());
+        actividadView.setCodigo(act.getCodigo());
         actividadView.setFechaFin(act.getFechaFin());
         actividadView.setFechaIni(act.getFechaIni());
         actividadView.setHoraFin(act.getHoraFin());
@@ -100,7 +104,7 @@ public class LineTimeBean {
         //Creo el Lugar
         LugarView lugarview = new LugarView();
         lugarview.setDescripActividad(act.getDescripcion());
-       // lugarview.setDescripLugar("Salon");
+       
         lugarview.setIdActividad(act.getId());
         lugarview.setIdLugar(act.getIdLugar());
         actividadView.getLugaresView().add(lugarview);
@@ -127,20 +131,45 @@ public class LineTimeBean {
     }
 
     public void changePlace(){
+        //tengo el lugarview, con el id de la actividad la cambio en la lista principal de actividades
+        System.out.println("viewSelectedLugar"+lugarViewSelected.getIdActividad());
         
+        int index=0;
+       for (ActividadLineTime act:actividades){
+           if(act.getId().equalsIgnoreCase(lugarViewSelected.getIdActividad())){
+               actividades.get(index).setIdLugar(v_select_place_change);
+               clear();
+               v_select_place_change="";
+               break;
+           }
+           index++;
+       }
     }
     
     public void insertAct(){
         //inserto en la lista de actividades normal.
         actInsert.setIdLugar(v_select_lugar);
+        actInsert.setId(""+idAct+1);
         v_select_lugar="";
         actividades.add(actInsert);
+             
+    }
+    
+    public void clear(){
         actividadesView= actOrderBy(actividades);
         gamePlaces = loadPlaces();
         lugarViewSelected=new LugarView ();
         itemsPlaces=Consultar_Lugares_combo();
-        actInsert = new ActividadLineTime();        
+        actInsert = new ActividadLineTime(); 
+        
     }
+    
+    public void setPlaceSelected(LugarView lugar){
+        System.out.println("Entro"+lugar.getIdActividad());
+        this.lugarViewSelected=lugar;
+        
+    }
+    
     public List<Lugar> getGamePlaces() {
         return gamePlaces;
     }

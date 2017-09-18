@@ -13,7 +13,7 @@ import java.io.Serializable;
  */
 public class ActividadLineTime implements Serializable{
      private static final long serialVersionUID = 1L;
-    public String id;
+    public String codigo;
     public String fechaIni;
     public String fechaFin;
     public String horaIni;
@@ -22,20 +22,22 @@ public class ActividadLineTime implements Serializable{
     public String descripcion;
     public String detalle;
     public boolean notificacion;
+    public String id;
     //public TreeNode lugar;
 
     public ActividadLineTime() {
     
     }
 
-    public ActividadLineTime(String descripcion, String id) {
+    public ActividadLineTime(String descripcion, String codigo) {
         this.descripcion = descripcion;
-        this.id=id;
+        this.codigo=codigo;
     }
     
     
-    public ActividadLineTime(String id, String fechaIni, String fechaFin, String horaIni, String horaFin , String nombreAct, String idLugar,String detalle) {
+    public ActividadLineTime(String id,String codigo, String fechaIni, String fechaFin, String horaIni, String horaFin , String nombreAct, String idLugar,String detalle) {
        this.id=id;
+        this.codigo=codigo;
        this.fechaIni=fechaIni;
        this.fechaFin=fechaFin;
        this.horaIni=horaIni;
@@ -48,12 +50,7 @@ public class ActividadLineTime implements Serializable{
     
    
 
-    public String getId() {
-        return id;
-    }
-    public void setId(String id) {
-        this.id = id;
-    }
+   
 
     public String getFechaIni() {
         return fechaIni;
@@ -121,30 +118,26 @@ public class ActividadLineTime implements Serializable{
         this.notificacion = notificacion;
     }
 
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     
     
    
 
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 59 * hash + (this.id != null ? this.id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Actividad other = (Actividad) obj;
-        if ((this.id == null) ? (other.id != null) : !this.id.equals(other.id)) {
-            return false;
-        }
-        return true;
-    }
+   
     
 }
