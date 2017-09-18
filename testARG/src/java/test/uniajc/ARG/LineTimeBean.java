@@ -140,6 +140,7 @@ public class LineTimeBean {
                actividades.get(index).setIdLugar(v_select_place_change);
                clear();
                v_select_place_change="";
+               
                break;
            }
            index++;
