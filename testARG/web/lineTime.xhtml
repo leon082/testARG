@@ -23,6 +23,12 @@ and open the template in the editor.
         <div style="height:500px">
             <h:form>
                 <p:dataTable id="table" value = "#{lineTimeBean.actividadesView}" var="actividadView">
+                    <f:facet name="header" >
+                            Actividades
+                        </f:facet>
+                    <p:column headerText="Codigo">
+                        <p:inputText value="#{actividadView.codigo}"></p:inputText>                  
+                    </p:column>
                     <p:column headerText="Hora inicio">
                         <p:inputText value="#{actividadView.horaIni}"></p:inputText>                  
                     </p:column>
@@ -42,15 +48,86 @@ and open the template in the editor.
                             <h:outputText value="#{place.descripcion}" />
                         </f:facet>
                         <p:repeat value="#{actividadView.lugaresView}" var="placeView">
-                            <h:outputText value="#{placeView.descripActividad}" rendered="#{placeView.idLugar == place.id}"/>
+                            <h:outputText value="#{placeView.descripActividad}" rendered="#{placeView.idLugar == place.id}" style="font-weight: bold"/>
+                            <p:commandLink update="@form" oncomplete="PF('actividadDialog').show()" title="View Detail" styleClass="ui-icon ui-icon-search" rendered="#{placeView.idLugar == place.id}">
+                                <f:setPropertyActionListener value="#{placeView}" target="#{lineTimeBean.lugarViewSelected}"  />
+                            </p:commandLink>
                         </p:repeat>
-                        
+
                     </p:columns>
-
-
-
-
                 </p:dataTable>
+                <p:separator></p:separator>
+                
+                 <p:commandButton value="Insertar" oncomplete="PF('insertActividadDialog').show()" icon="ui-icon-pencil" title="Icon Pencil"/>
+                 
+                 <p:dialog id="dialogInsert" header="Insertar Actividad" showEffect="fade" widgetVar="insertActividadDialog" modal="true" resizable="false">
+                        <p:outputPanel id="actividadPanel2">
+                            <p:panelGrid  columns="2" columnClasses="label,value" >
+                                
+                                 <h:outputLabel for="codigo" value="Codigo: " />
+                                 <h:inputText id="codigo" value="#{lineTimeBean.actInsert.id}" style="font-weight:bold" />  
+                                 
+                                 <h:outputLabel for="descripcion" value="Nombre: " />
+                                 <h:inputText id="descripcion" value="#{lineTimeBean.actInsert.descripcion}" style="font-weight:bold" /> 
+                                 
+                                 <h:outputLabel for="horaIni" value="Hora Inicio: " />
+                                 <h:inputText id="horaIni" value="#{lineTimeBean.actInsert.horaIni}" style="font-weight:bold" /> 
+                                 
+                                 <h:outputLabel for="horaFin" value="Hora Fin: " />
+                                 <h:inputText id="horaFin" value="#{lineTimeBean.actInsert.horaFin}" style="font-weight:bold" />  
+                                 
+                                 <h:outputLabel for="fechaIni" value="Fecha Inicio: " />
+                                 <h:inputText id="fechaIni" value="#{lineTimeBean.actInsert.fechaIni}" style="font-weight:bold" /> 
+                                 
+                                 <h:outputLabel for="fechaFin" value="Fecha Fin: " />
+                                 <h:inputText id="fechaFin" value="#{lineTimeBean.actInsert.fechaFin}" style="font-weight:bold" />                                 
+                                
+                                <p:outputLabel for="lugar" value="Lugar:" />    
+
+                                <p:selectOneMenu  id="lugar" value="#{lineTimeBean.v_select_lugar}">  
+                                    <f:selectItem itemLabel="Seleccione" itemValue="" />  
+                                    <f:selectItems value="#{lineTimeBean.itemsPlaces}"/>  
+                                </p:selectOneMenu> 
+                                
+                            </p:panelGrid>
+                        </p:outputPanel>                        
+                       <p:commandButton 
+                            update="@form"
+                            value="Guardar" action="#{lineTimeBean.insertAct()}" icon="ui-icon-disk"/> 
+                    </p:dialog>
+                 
+                 
+                 
+                 
+                 
+                 
+                 
+                 
+                 
+                 
+                 
+                 
+                 
+                 
+                 
+                 
+                 
+                <p:dialog id="dialog" header="Detalle de la Actividad" showEffect="fade" widgetVar="actividadDialog" modal="true" resizable="false">
+                        <p:outputPanel id="actividadPanel">
+                            <p:panelGrid  columns="2" columnClasses="label,value" rendered="#{not empty lineTimeBean.lugarViewSelected}">
+                                
+                                <p:outputLabel for="lugar2" value="Lugar:" /> 
+                                <p:selectOneMenu  id="lugar2" value="#{lineTimeBean.v_select_place_change}">  
+                                    <f:selectItem itemLabel="Seleccione" itemValue="" />  
+                                    <f:selectItems value="#{lineTimeBean.itemsPlaces}"/>  
+                                </p:selectOneMenu> 
+                                
+                            </p:panelGrid>
+                        </p:outputPanel>                        
+                       <p:commandButton 
+                            update="@form"
+                         value="Guardar" action="#{lineTimeBean.changePlace()}" icon="ui-icon-disk"/> 
+                    </p:dialog>
             </h:form>
         </div>
     </body>

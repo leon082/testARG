@@ -13,7 +13,7 @@ import java.util.List;
  * @author luis.leon
  */
 public class ActividadView {
-   // public String codigo;
+    public String codigo;
     public String fechaIni;
     public String fechaFin;
     public String horaIni;
@@ -74,6 +74,15 @@ public class ActividadView {
     public void setLugaresView(List<LugarView> lugaresView) {
         this.lugaresView = lugaresView;
     }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+    
 
    
     

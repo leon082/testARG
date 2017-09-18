@@ -10,6 +10,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.model.SelectItem;
 
 /**
  *
@@ -19,44 +20,58 @@ import javax.faces.bean.SessionScoped;
 @SessionScoped
 public class LineTimeBean {
 
-    private List<Actividad> actividades;
+    private List<ActividadLineTime> actividades;
     private List<ActividadView> actividadesView;
     private List<Lugar> gamePlaces;
+    private LugarView lugarViewSelected;
+     //Combos
+    private ArrayList<SelectItem> itemsPlaces;
+    private String v_select_lugar,v_select_place_change;
+    
+    //Insertar
+    private ActividadLineTime actInsert;
 
     @PostConstruct
     public void init() {
 
-        actividades = createAct();
-        actividadesView = actOrderBy(actividades);
+        actividades = new ArrayList<ActividadLineTime>();
         gamePlaces = loadPlaces();
+        lugarViewSelected=new LugarView ();
+        itemsPlaces=Consultar_Lugares_combo();
+        actInsert = new ActividadLineTime();
+                
 
     }
 
-    public List<Actividad> createAct() {
-        List<Actividad> list = new ArrayList<>();
-        list.add(new Actividad("1", "06/05/2017", "06/05/2018", "8:00pm", "29:00", "Correr", "1", "Correr en el parque"));
-        list.add(new Actividad("2", "06/05/2017", "06/05/2018", "8:00pm", "19:00", "Trotar", "2", "Trotar en el puesto por 30 segundos"));
-        list.add(new Actividad("3", "08/05/2017", "08/05/2018", "5:00pm", "22:00", "saltar", "2", "Saltar lazo 30 rep"));
+    public List<ActividadLineTime> createAct() {
+        List<ActividadLineTime> list = new ArrayList<>();
+        list.add(new ActividadLineTime("PRE", "06/05/2017", "06/05/2018", "8:00pm", "29:00", "Correr", "1", "Correr en el parque"));
+        list.add(new ActividadLineTime("PRE", "06/05/2017", "06/05/2018", "8:00pm", "29:00", "Trotar", "2", "Trotar en el puesto por 30 segundos"));
+        list.add(new ActividadLineTime("P1C", "08/05/2017", "08/05/2018", "5:00pm", "22:00", "saltar", "2", "Saltar lazo 30 rep"));
+        //list.add(new ActividadLineTime("PRE", "06/05/2017", "06/05/2018", "8:00pm", "29:00", "Publicar", "3", "Publciar en FBK"));
+        //list.add(new ActividadLineTime("P1C", "08/05/2017", "08/05/2018", "5:00pm", "22:00", "Caminar","1", "Saltar lazo 30 rep"));
         return list;
     }
 
-    public List<ActividadView> actOrderBy(List<Actividad> actividades) {
+    public List<ActividadView> actOrderBy(List<ActividadLineTime> actividades) {
         List<ActividadView> actividadesView = new ArrayList<ActividadView>();
-        for (Actividad act : actividades) {
+        for (ActividadLineTime act : actividades) {
             if (actividadesView.isEmpty()) {
                 actividadesView.add(createActividadView(act));
             } else {
                 boolean flag = false;
                 int index = 0;
                 for (ActividadView actividadview : actividadesView) {
-                    if (actividadview.getFechaFin().equalsIgnoreCase(act.getFechaFin())
-                            && actividadview.getFechaIni().equalsIgnoreCase(act.getFechaIni())
-                            && actividadview.getHoraFin().equalsIgnoreCase(act.getHoraFin())
-                            && actividadview.getHoraIni().equalsIgnoreCase(act.getHoraIni())) {
+                    
+                    if (actividadview.getCodigo().trim().equalsIgnoreCase(act.getId().trim()) 
+                            && actividadview.getFechaFin().trim().equalsIgnoreCase(act.getFechaFin().trim())
+                            && actividadview.getFechaIni().trim().equalsIgnoreCase(act.getFechaIni().trim())
+                            && actividadview.getHoraFin().trim().equalsIgnoreCase(act.getHoraFin().trim())
+                            && actividadview.getHoraIni().trim().equalsIgnoreCase(act.getHoraIni().trim())) {
                         //Logica
                         LugarView lugarview = new LugarView();
                         lugarview.setDescripActividad(act.getDescripcion());
-                        lugarview.setDescripLugar("Salon");
+                       // lugarview.setDescripLugar("Salon");
                         lugarview.setIdActividad(act.getId());
                         lugarview.setIdLugar(act.getIdLugar());
                         actividadesView.get(index).getLugaresView().add(lugarview);
@@ -75,8 +90,9 @@ public class LineTimeBean {
         return actividadesView;
     }
 
-    public ActividadView createActividadView(Actividad act) {
+    public ActividadView createActividadView(ActividadLineTime act) {
         ActividadView actividadView = new ActividadView();
+        actividadView.setCodigo(act.getId());
         actividadView.setFechaFin(act.getFechaFin());
         actividadView.setFechaIni(act.getFechaIni());
         actividadView.setHoraFin(act.getHoraFin());
@@ -84,7 +100,7 @@ public class LineTimeBean {
         //Creo el Lugar
         LugarView lugarview = new LugarView();
         lugarview.setDescripActividad(act.getDescripcion());
-        lugarview.setDescripLugar("Salon");
+       // lugarview.setDescripLugar("Salon");
         lugarview.setIdActividad(act.getId());
         lugarview.setIdLugar(act.getIdLugar());
         actividadView.getLugaresView().add(lugarview);
@@ -96,9 +112,35 @@ public class LineTimeBean {
         List<Lugar> places = new ArrayList<Lugar>();
         places.add(new Lugar("1", "Salon"));
         places.add(new Lugar("2", "Blogger"));
+        places.add(new Lugar("3", "Facebook"));
         return places;
     }
+    
+    public ArrayList<SelectItem> Consultar_Lugares_combo() {
 
+        ArrayList<SelectItem> items = new ArrayList<SelectItem>();
+        for (Lugar obj : gamePlaces) {
+            
+            items.add(new SelectItem(obj.getId(), obj.getDescripcion()));
+        }
+        return items;
+    }
+
+    public void changePlace(){
+        
+    }
+    
+    public void insertAct(){
+        //inserto en la lista de actividades normal.
+        actInsert.setIdLugar(v_select_lugar);
+        v_select_lugar="";
+        actividades.add(actInsert);
+        actividadesView= actOrderBy(actividades);
+        gamePlaces = loadPlaces();
+        lugarViewSelected=new LugarView ();
+        itemsPlaces=Consultar_Lugares_combo();
+        actInsert = new ActividadLineTime();        
+    }
     public List<Lugar> getGamePlaces() {
         return gamePlaces;
     }
@@ -107,11 +149,11 @@ public class LineTimeBean {
         this.gamePlaces = gamePlaces;
     }
 
-    public List<Actividad> getActividades() {
+    public List<ActividadLineTime> getActividades() {
         return actividades;
     }
 
-    public void setActividades(List<Actividad> actividades) {
+    public void setActividades(List<ActividadLineTime> actividades) {
         this.actividades = actividades;
     }
 
@@ -122,5 +164,49 @@ public class LineTimeBean {
     public void setActividadesView(List<ActividadView> actividadesView) {
         this.actividadesView = actividadesView;
     }
+
+    public LugarView getLugarViewSelected() {
+        return lugarViewSelected;
+    }
+
+    public void setLugarViewSelected(LugarView lugarViewSelected) {
+        this.lugarViewSelected = lugarViewSelected;
+    }
+
+    public ArrayList<SelectItem> getItemsPlaces() {
+        return itemsPlaces;
+    }
+
+    public void setItemsPlaces(ArrayList<SelectItem> itemsPlaces) {
+        this.itemsPlaces = itemsPlaces;
+    }
+
+    public String getV_select_lugar() {
+        return v_select_lugar;
+    }
+
+    public void setV_select_lugar(String v_select_lugar) {
+        this.v_select_lugar = v_select_lugar;
+    }
+
+    public ActividadLineTime getActInsert() {
+        return actInsert;
+    }
+
+    public void setActInsert(ActividadLineTime actInsert) {
+        this.actInsert = actInsert;
+    }
+
+    public String getV_select_place_change() {
+        return v_select_place_change;
+    }
+
+    public void setV_select_place_change(String v_select_place_change) {
+        this.v_select_place_change = v_select_place_change;
+    }
+
+    
+    
+    
 
 }
