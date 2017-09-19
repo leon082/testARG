@@ -31,18 +31,21 @@ public class LineTimeBean {
     
     //Insertar
     private ActividadLineTime actInsert;
+    private ActividadLineTime actEdit;
 
     @PostConstruct
     public void init() {
 
-       lugarViewSelected=new LugarView();
-        actividades =createAct();
-        actividadesView=actOrderBy(actividades);
-        // actividades = new ArrayList<ActividadLineTime>();
+      
+       // actividades =createAct();
+        //actividadesView=actOrderBy(actividades);
+         actividades = new ArrayList<ActividadLineTime>();
         gamePlaces = loadPlaces();
         lugarViewSelected=new LugarView ();
         itemsPlaces=Consultar_Lugares_combo();
         actInsert = new ActividadLineTime();
+        actEdit = new ActividadLineTime();
+         lugarViewSelected=new LugarView();
                 
 
     }
@@ -132,15 +135,15 @@ public class LineTimeBean {
 
     public void changePlace(){
         //tengo el lugarview, con el id de la actividad la cambio en la lista principal de actividades
-        System.out.println("viewSelectedLugar"+lugarViewSelected.getIdActividad());
-        
-        int index=0;
+       actEdit.setIdLugar(v_select_place_change);
+       int index=0;
        for (ActividadLineTime act:actividades){
            if(act.getId().equalsIgnoreCase(lugarViewSelected.getIdActividad())){
-               actividades.get(index).setIdLugar(v_select_place_change);
-               clear();
-               v_select_place_change="";
                
+               actividades.remove(index);
+               actividades.add(act);
+               clear();
+               v_select_place_change="";               
                break;
            }
            index++;
@@ -153,7 +156,21 @@ public class LineTimeBean {
         actInsert.setId(""+idAct+1);
         v_select_lugar="";
         actividades.add(actInsert);
+        clear();
+        
              
+    }
+    
+    public void setEdit(LugarView lugar){
+        lugarViewSelected=lugar;
+        for (ActividadLineTime act: actividades){
+            if(act.getId().equalsIgnoreCase( lugarViewSelected.getIdActividad())){
+                actEdit = act;
+               
+            }
+        }
+        
+        
     }
     
     public void clear(){
@@ -162,14 +179,11 @@ public class LineTimeBean {
         lugarViewSelected=new LugarView ();
         itemsPlaces=Consultar_Lugares_combo();
         actInsert = new ActividadLineTime(); 
+        actEdit = new ActividadLineTime();
         
     }
     
-    public void setPlaceSelected(LugarView lugar){
-        System.out.println("Entro"+lugar.getIdActividad());
-        this.lugarViewSelected=lugar;
-        
-    }
+    
     
     public List<Lugar> getGamePlaces() {
         return gamePlaces;
@@ -233,6 +247,22 @@ public class LineTimeBean {
 
     public void setV_select_place_change(String v_select_place_change) {
         this.v_select_place_change = v_select_place_change;
+    }
+
+    public int getIdAct() {
+        return idAct;
+    }
+
+    public void setIdAct(int idAct) {
+        this.idAct = idAct;
+    }
+
+    public ActividadLineTime getActEdit() {
+        return actEdit;
+    }
+
+    public void setActEdit(ActividadLineTime actEdit) {
+        this.actEdit = actEdit;
     }
 
     

@@ -27,19 +27,19 @@ and open the template in the editor.
                             Actividades
                         </f:facet>
                     <p:column headerText="Codigo">
-                        <p:inputText value="#{actividadView.codigo}"></p:inputText>                  
+                        <p:outputLabel  value="#{actividadView.codigo}"></p:outputLabel>                  
                     </p:column>
                     <p:column headerText="Hora inicio">
-                        <p:inputText value="#{actividadView.horaIni}"></p:inputText>                  
+                        <p:outputLabel value="#{actividadView.horaIni}"></p:outputLabel>                  
                     </p:column>
                     <p:column headerText="Hora Fin">
-                        <p:inputText value="#{actividadView.horaFin}"></p:inputText> 
+                        <p:outputLabel value="#{actividadView.horaFin}"></p:outputLabel> 
                     </p:column>
                     <p:column headerText="Fecha Inicio">
-                        <p:inputText value="#{actividadView.fechaIni}"></p:inputText>                
+                        <p:outputLabel value="#{actividadView.fechaIni}"></p:outputLabel>                
                     </p:column>
                     <p:column headerText="Fecha Fin">
-                        <p:inputText id="year" value="#{actividadView.horaFin}"></p:inputText>
+                        <p:outputLabel id="year" value="#{actividadView.fechaFin}"></p:outputLabel>
 
                     </p:column>     
 
@@ -50,8 +50,8 @@ and open the template in the editor.
                         <p:repeat value="#{actividadView.lugaresView}" var="placeView">
                             <p:panelGrid columns="2" layout="tabular">
                             <h:outputText value="#{placeView.descripActividad}" rendered="#{placeView.idLugar == place.id}" style="font-weight: bold"/>
-                            <p:commandLink update="@form" oncomplete="PF('actividadDialog').show()" title="View Detail" styleClass="ui-icon ui-icon-search" rendered="#{placeView.idLugar == place.id}">
-                                <f:setPropertyActionListener value="#{placeView}" target="#{lineTimeBean.lugarViewSelected}"  />
+                            <p:commandLink update="@form" actionListener="#{lineTimeBean.setEdit(placeView)}" oncomplete="PF('actividadDialog').show()" title="View Detail" styleClass="ui-icon ui-icon-search" rendered="#{placeView.idLugar == place.id}">
+                               
                             </p:commandLink>
                             </p:panelGrid>
                         </p:repeat>
@@ -99,13 +99,30 @@ and open the template in the editor.
                     </p:dialog>
                  
                  
-                <p:dialog id="dialog" header="Detalle de la Actividad" showEffect="fade" widgetVar="actividadDialog" modal="true" resizable="false">
+                <p:dialog id="dialogEdit" header="Editar la Actividad" showEffect="fade" widgetVar="actividadDialog" modal="true" resizable="false">
                         <p:outputPanel id="actividadPanel">
                             <p:panelGrid  columns="2" columnClasses="label,value" rendered="#{not empty lineTimeBean.lugarViewSelected}">
                                 
-                                 <h:outputLabel for="act" value="Actividad: " />
-                                 <h:outputText id="act" value="#{lineTimeBean.lugarViewSelected.descripActividad}" style="font-weight:bold" />                                 
+                                                                
                                 
+                                 <h:outputLabel for="codigoEdit" value="Codigo: " />
+                                 <h:inputText id="codigoEdit" value="#{lineTimeBean.actEdit.codigo}" style="font-weight:bold" />  
+                                 
+                                 <h:outputLabel for="descripcionEdit" value="Nombre: " />
+                                 <h:inputText id="descripcionEdit" value="#{lineTimeBean.actEdit.descripcion}" style="font-weight:bold" /> 
+                                 
+                                 <h:outputLabel for="horaIniEdit" value="Hora Inicio: " />
+                                 <h:inputText id="horaIniEdit" value="#{lineTimeBean.actEdit.horaIni}" style="font-weight:bold" /> 
+                                 
+                                 <h:outputLabel for="horaFinEdit" value="Hora Fin: " />
+                                 <h:inputText id="horaFinEdit" value="#{lineTimeBean.actEdit.horaFin}" style="font-weight:bold" />  
+                                 
+                                 <h:outputLabel for="fechaIniEdit" value="Fecha Inicio: " />
+                                 <h:inputText id="fechaIniEdit" value="#{lineTimeBean.actEdit.fechaIni}" style="font-weight:bold" /> 
+                                 
+                                 <h:outputLabel for="fechaFinEdit" value="Fecha Fin: " />
+                                 <h:inputText id="fechaFinEdit" value="#{lineTimeBean.actEdit.fechaFin}" style="font-weight:bold" />                                 
+                                 
                                 <p:outputLabel for="lugar2" value="Lugar:" /> 
                                 <p:selectOneMenu  id="lugar2" value="#{lineTimeBean.v_select_place_change}">  
                                     <f:selectItem itemLabel="Seleccione" itemValue="" />  
