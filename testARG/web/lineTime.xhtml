@@ -48,10 +48,12 @@ and open the template in the editor.
                             <h:outputText value="#{place.descripcion}" />
                         </f:facet>
                         <p:repeat value="#{actividadView.lugaresView}" var="placeView">
+                            <p:panelGrid columns="2" layout="tabular">
                             <h:outputText value="#{placeView.descripActividad}" rendered="#{placeView.idLugar == place.id}" style="font-weight: bold"/>
                             <p:commandLink update="@form" oncomplete="PF('actividadDialog').show()" title="View Detail" styleClass="ui-icon ui-icon-search" rendered="#{placeView.idLugar == place.id}">
                                 <f:setPropertyActionListener value="#{placeView}" target="#{lineTimeBean.lugarViewSelected}"  />
                             </p:commandLink>
+                            </p:panelGrid>
                         </p:repeat>
 
                     </p:columns>
@@ -100,6 +102,9 @@ and open the template in the editor.
                 <p:dialog id="dialog" header="Detalle de la Actividad" showEffect="fade" widgetVar="actividadDialog" modal="true" resizable="false">
                         <p:outputPanel id="actividadPanel">
                             <p:panelGrid  columns="2" columnClasses="label,value" rendered="#{not empty lineTimeBean.lugarViewSelected}">
+                                
+                                 <h:outputLabel for="act" value="Actividad: " />
+                                 <h:outputText id="act" value="#{lineTimeBean.lugarViewSelected.descripActividad}" style="font-weight:bold" />                                 
                                 
                                 <p:outputLabel for="lugar2" value="Lugar:" /> 
                                 <p:selectOneMenu  id="lugar2" value="#{lineTimeBean.v_select_place_change}">  
