@@ -152,8 +152,9 @@ public class LineTimeBean {
     
     public void insertAct(){
         //inserto en la lista de actividades normal.
+        idAct++;
         actInsert.setIdLugar(v_select_lugar);
-        actInsert.setId(""+idAct+1);
+        actInsert.setId(String.valueOf(idAct));
         v_select_lugar="";
         actividades.add(actInsert);
         clear();
