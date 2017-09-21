@@ -73,7 +73,7 @@ public class LineTimeBean {
                 boolean flag = false;
                 int index = 0;
                 for (ActividadView actividadview : actividadesView) {
-                        //actividadview.getCodigo().trim().equalsIgnoreCase(act.getCodigo().trim())&&
+                    //actividadview.getCodigo().trim().equalsIgnoreCase(act.getCodigo().trim())&&
                     if (actividadview.getFechaFin().trim().equalsIgnoreCase(act.getFechaFin().trim())
                             && actividadview.getFechaIni().trim().equalsIgnoreCase(act.getFechaIni().trim())
                             && actividadview.getHoraFin().trim().equalsIgnoreCase(act.getHoraFin().trim())
@@ -150,21 +150,21 @@ public class LineTimeBean {
     }
 
     public void changePlace() {
-    
+
         //tengo el lugarview, con el id de la actividad la cambio en la lista principal de actividades
         int index = 0;
         for (ActividadLineTime act : actividades) {
             if (act.getId().equalsIgnoreCase(lugarViewSelected.getIdActividad())) {
-               System.out.println("Encontro la actividad");
+                System.out.println("Encontro la actividad");
                 actividades.get(index).setCodigo(actEdit.getCodigo());
                 actividades.get(index).setDescripcion(actEdit.getDescripcion());
-                
-                if(!registroExistente(actEdit,v_select_place_change)){
+
+                if (!registroExistente(actEdit, v_select_place_change)) {
                     System.out.println("No Existe");
                     actEdit.setIdLugar(v_select_place_change);
                     actividades.remove(index);
                     actividades.add(actEdit);
-                
+
                 }
             }
             index++;
@@ -190,7 +190,6 @@ public class LineTimeBean {
 
             }
         }
-       
 
     }
 
@@ -200,7 +199,7 @@ public class LineTimeBean {
         actInsert.setIdLugar(v_select_lugar);
         actInsert.setId(String.valueOf(idAct));
         v_select_lugar = "";
-        if (!registroExistente(actInsert,actInsert.getIdLugar())) {
+        if (!registroExistente(actInsert, actInsert.getIdLugar())) {
 
             actividades.add(actInsert);
         }
@@ -212,7 +211,7 @@ public class LineTimeBean {
         lugarViewSelected = lugar;
         for (ActividadLineTime act : actividades) {
             if (act.getId().equalsIgnoreCase(lugarViewSelected.getIdActividad())) {
-                
+
                 actEdit.setId(act.getId());
                 actEdit.setCodigo(act.getCodigo());
                 actEdit.setDescripcion(act.getDescripcion());
@@ -221,10 +220,7 @@ public class LineTimeBean {
                 actEdit.setHoraFin(act.getHoraFin());
                 actEdit.setHoraIni(act.getHoraIni());
                 actEdit.setIdLugar(act.getIdLugar());
-                
-                
-                
-               
+
                 v_select_place_change = act.idLugar;
 
             }
@@ -232,7 +228,7 @@ public class LineTimeBean {
 
     }
 
-    public boolean registroExistente(ActividadLineTime actividadLine,String lugar) {
+    public boolean registroExistente(ActividadLineTime actividadLine, String lugar) {
         System.out.println("Entro a registro existente");
         for (ActividadLineTime act : actividades) {
 
@@ -254,7 +250,7 @@ public class LineTimeBean {
         actividadesView = actOrderBy(actividades);
         insertarID();
         itemsLine = new ArrayList<SelectItem>();
-        itemsLine= loadLine();
+        itemsLine = loadLine();
         gamePlaces = loadPlaces();
         lugarViewSelected = new LugarView();
         itemsPlaces = Consultar_Lugares_combo();
