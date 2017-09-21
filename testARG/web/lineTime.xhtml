@@ -24,11 +24,12 @@ and open the template in the editor.
             <h:form>
                 <p:dataTable id="table" value = "#{lineTimeBean.actividadesView}" var="actividadView">
                     <f:facet name="header" >
-                            Actividades
-                        </f:facet>
-                    <p:column headerText="Codigo">
-                        <p:outputLabel  value="#{actividadView.codigo}"></p:outputLabel>                  
+                        Actividades
+                    </f:facet>
+                    <p:column headerText="Registro">
+                        <p:outputLabel  value="#{actividadView.id}"></p:outputLabel>                  
                     </p:column>
+
                     <p:column headerText="Hora inicio">
                         <p:outputLabel value="#{actividadView.horaIni}"></p:outputLabel>                  
                     </p:column>
@@ -49,92 +50,113 @@ and open the template in the editor.
                         </f:facet>
                         <p:repeat value="#{actividadView.lugaresView}" var="placeView">
                             <p:panelGrid columns="2" layout="tabular">
-                            <h:outputText value="#{placeView.descripActividad}" rendered="#{placeView.idLugar == place.id}" style="font-weight: bold"/>
-                            <p:commandLink update="@form" actionListener="#{lineTimeBean.setEdit(placeView)}" oncomplete="PF('actividadDialog').show()" title="View Detail" styleClass="ui-icon ui-icon-search" rendered="#{placeView.idLugar == place.id}">
-                               
-                            </p:commandLink>
+                                <h:outputText value="#{placeView.descripActividad}" rendered="#{placeView.idLugar == place.id}" style="font-weight: bold"/>
+                                <p:commandLink update="@form" actionListener="#{lineTimeBean.setEdit(placeView)}" oncomplete="PF('actividadDialog').show()" title="View Detail" styleClass="ui-icon ui-icon-search" rendered="#{placeView.idLugar == place.id}">
+
+                                </p:commandLink>
                             </p:panelGrid>
                         </p:repeat>
 
                     </p:columns>
                 </p:dataTable>
                 <p:separator></p:separator>
-                
-                 <p:commandButton value="Insertar" oncomplete="PF('insertActividadDialog').show()" icon="ui-icon-pencil" title="Icon Pencil"/>
-                 
-                 <p:dialog id="dialogInsert" header="Insertar Actividad" showEffect="fade" widgetVar="insertActividadDialog" modal="true" resizable="false">
-                        <p:outputPanel id="actividadPanel2">
-                            <p:panelGrid  columns="2" columnClasses="label,value" >
-                                
-                                 <h:outputLabel for="codigo" value="Codigo: " />
-                                 <h:inputText id="codigo" value="#{lineTimeBean.actInsert.codigo}" style="font-weight:bold" />  
-                                 
-                                 <h:outputLabel for="descripcion" value="Nombre: " />
-                                 <h:inputText id="descripcion" value="#{lineTimeBean.actInsert.descripcion}" style="font-weight:bold" /> 
-                                 
-                                 <h:outputLabel for="horaIni" value="Hora Inicio: " />
-                                 <h:inputText id="horaIni" value="#{lineTimeBean.actInsert.horaIni}" style="font-weight:bold" /> 
-                                 
-                                 <h:outputLabel for="horaFin" value="Hora Fin: " />
-                                 <h:inputText id="horaFin" value="#{lineTimeBean.actInsert.horaFin}" style="font-weight:bold" />  
-                                 
-                                 <h:outputLabel for="fechaIni" value="Fecha Inicio: " />
-                                 <h:inputText id="fechaIni" value="#{lineTimeBean.actInsert.fechaIni}" style="font-weight:bold" /> 
-                                 
-                                 <h:outputLabel for="fechaFin" value="Fecha Fin: " />
-                                 <h:inputText id="fechaFin" value="#{lineTimeBean.actInsert.fechaFin}" style="font-weight:bold" />                                 
-                                
+
+                <p:commandButton value="Insertar" oncomplete="PF('insertActividadDialog').show()" icon="ui-icon-pencil" title="Icon Pencil"/>
+
+                <p:dialog id="dialogInsert" header="Insertar Actividad" showEffect="fade" widgetVar="insertActividadDialog" modal="true" resizable="false">
+                    <p:outputPanel id="actividadPanel2">
+                        <p:panelGrid  columns="2" columnClasses="label,value" >
+
+                            <h:outputLabel for="codigo" value="Codigo: " />
+                            <h:inputText id="codigo" value="#{lineTimeBean.actInsert.codigo}" style="font-weight:bold" />  
+
+                            <h:outputLabel for="descripcion" value="Nombre: " />
+                            <h:inputText id="descripcion" value="#{lineTimeBean.actInsert.descripcion}" style="font-weight:bold" /> 
+
+                        </p:panelGrid>
+
+                        <p:outputPanel id="actividadPanelInsert">
+                            <p:panelGrid  columns="4" columnClasses="label,value">
+                                <h:outputLabel for="fechaIni" value="Fecha Inicio: " />
+                                <h:inputText id="fechaIni" value="#{lineTimeBean.actInsert.fechaIni}" style="font-weight:bold" /> 
+
+                                <h:outputLabel for="horaIni" value="Hora Inicio: " />
+                                <h:inputText id="horaIni" value="#{lineTimeBean.actInsert.horaIni}" style="font-weight:bold" /> 
+
+                                <h:outputLabel for="fechaFin" value="Fecha Fin: " />
+                                <h:inputText id="fechaFin" value="#{lineTimeBean.actInsert.fechaFin}" style="font-weight:bold" />                                 
+
+                                <h:outputLabel for="horaFin" value="Hora Fin: " />
+                                <h:inputText id="horaFin" value="#{lineTimeBean.actInsert.horaFin}" style="font-weight:bold" />  
+
                                 <p:outputLabel for="lugar" value="Lugar:" />    
 
                                 <p:selectOneMenu  id="lugar" value="#{lineTimeBean.v_select_lugar}">  
                                     <f:selectItem itemLabel="Seleccione" itemValue="" />  
                                     <f:selectItems value="#{lineTimeBean.itemsPlaces}"/>  
                                 </p:selectOneMenu> 
-                                
+
                             </p:panelGrid>
-                        </p:outputPanel>                        
-                       <p:commandButton 
-                            update="@form"
-                            value="Guardar" action="#{lineTimeBean.insertAct()}" icon="ui-icon-disk"/> 
-                    </p:dialog>
-                 
-                 
+                        </p:outputPanel>
+
+                    </p:outputPanel>  
+
+                    <p:commandButton 
+                        update="@form"
+                        value="Guardar" action="#{lineTimeBean.insertAct()}" icon="ui-icon-disk"/> 
+                </p:dialog>
+
+
                 <p:dialog id="dialogEdit" header="Editar la Actividad" showEffect="fade" widgetVar="actividadDialog" modal="true" resizable="false">
-                        <p:outputPanel id="actividadPanel">
-                            <p:panelGrid  columns="2" columnClasses="label,value" rendered="#{not empty lineTimeBean.lugarViewSelected}">
-                                
-                                                                
-                                
-                                 <h:outputLabel for="codigoEdit" value="Codigo: " />
-                                 <h:inputText id="codigoEdit" value="#{lineTimeBean.actEdit.codigo}" style="font-weight:bold" />  
-                                 
-                                 <h:outputLabel for="descripcionEdit" value="Nombre: " />
-                                 <h:inputText id="descripcionEdit" value="#{lineTimeBean.actEdit.descripcion}" style="font-weight:bold" /> 
-                                 
-                                 <h:outputLabel for="horaIniEdit" value="Hora Inicio: " />
-                                 <h:inputText id="horaIniEdit" value="#{lineTimeBean.actEdit.horaIni}" style="font-weight:bold" /> 
-                                 
-                                 <h:outputLabel for="horaFinEdit" value="Hora Fin: " />
-                                 <h:inputText id="horaFinEdit" value="#{lineTimeBean.actEdit.horaFin}" style="font-weight:bold" />  
-                                 
-                                 <h:outputLabel for="fechaIniEdit" value="Fecha Inicio: " />
-                                 <h:inputText id="fechaIniEdit" value="#{lineTimeBean.actEdit.fechaIni}" style="font-weight:bold" /> 
-                                 
-                                 <h:outputLabel for="fechaFinEdit" value="Fecha Fin: " />
-                                 <h:inputText id="fechaFinEdit" value="#{lineTimeBean.actEdit.fechaFin}" style="font-weight:bold" />                                 
-                                 
+                    <p:outputPanel id="actividadPanel">
+                        <p:panelGrid  columns="2" columnClasses="label,value" rendered="#{not empty lineTimeBean.lugarViewSelected}">
+                            <h:outputLabel for="codigoEdit" value="Codigo: " />
+                            <h:inputText id="codigoEdit" value="#{lineTimeBean.actEdit.codigo}" style="font-weight:bold" />  
+
+                            <h:outputLabel for="descripcionEdit" value="Nombre: " />
+                            <h:inputText id="descripcionEdit" value="#{lineTimeBean.actEdit.descripcion}" style="font-weight:bold" /> 
+                        </p:panelGrid>
+
+                        <p:outputPanel id="actividadPanelUp">
+                            <p:panelGrid  columns="4" columnClasses="label,value">
+                                <h:outputLabel for="fechaIniEdit" value="Fecha Inicio: " />
+                                <h:inputText id="fechaIniEdit" value="#{lineTimeBean.actEdit.fechaIni}" style="font-weight:bold" /> 
+
+                                <h:outputLabel for="horaIniEdit" value="Hora Inicio: " />
+                                <h:inputText id="horaIniEdit" value="#{lineTimeBean.actEdit.horaIni}" style="font-weight:bold" /> 
+
+                                <h:outputLabel for="fechaFinEdit" value="Fecha Fin: " />
+                                <h:inputText id="fechaFinEdit" value="#{lineTimeBean.actEdit.fechaFin}" style="font-weight:bold" />                                 
+
+                                <h:outputLabel for="horaFinEdit" value="Hora Fin: " />
+                                <h:inputText id="horaFinEdit" value="#{lineTimeBean.actEdit.horaFin}" style="font-weight:bold" />  
+
                                 <p:outputLabel for="lugar2" value="Lugar:" /> 
                                 <p:selectOneMenu  id="lugar2" value="#{lineTimeBean.v_select_place_change}">  
                                     <f:selectItem itemLabel="Seleccione" itemValue="" />  
                                     <f:selectItems value="#{lineTimeBean.itemsPlaces}"/>  
                                 </p:selectOneMenu> 
-                                
+
                             </p:panelGrid>
-                        </p:outputPanel>                        
-                       <p:commandButton 
-                            update="@form"
-                         value="Guardar" action="#{lineTimeBean.changePlace()}" icon="ui-icon-disk"/> 
-                    </p:dialog>
+                        </p:outputPanel>
+                    </p:outputPanel>  
+                    <p:outputPanel id="actividadPanelEdit">
+                        <p:panelGrid  columns="3" columnClasses="label,value">
+                            <p:outputLabel for="line" value="Mover a LineTime" /> 
+                            <p:selectOneMenu  id="line" value="#{lineTimeBean.v_select_line}" >  
+                                <f:selectItem itemLabel="Seleccione" itemValue="" />  
+                                <f:selectItems value="#{lineTimeBean.itemsLine}"/>  
+                            </p:selectOneMenu> 
+                            <p:commandButton 
+                                update="actividadPanel"
+                                value="" action="#{lineTimeBean.changeEdit()}" icon="ui-icon-pencil"/> 
+
+                        </p:panelGrid>
+                    </p:outputPanel>
+                    <p:commandButton 
+                        update="@form"
+                        value="Guardar" action="#{lineTimeBean.changePlace()}" icon="ui-icon-disk"/> 
+                </p:dialog>
             </h:form>
         </div>
     </body>
