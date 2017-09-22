@@ -29,9 +29,13 @@ and open the template in the editor.
                     <p:column headerText="Registro">
                         <p:outputLabel  value="#{actividadView.id}"></p:outputLabel>                  
                     </p:column>
+                    
+                     <p:column headerText="Codigo Time Line">
+                         <p:inputText  value="#{actividadView.codigo}"></p:inputText>            
+                    </p:column>
 
                     <p:column headerText="Fecha Inicio">
-                        <p:outputLabel value="#{actividadView.fechaIni}"></p:outputLabel>                
+                        <p:outputLabel value="#{actividadView.fechaIni}" ></p:outputLabel>                
                     </p:column>
 
                     <p:column headerText="Hora inicio">
@@ -56,6 +60,7 @@ and open the template in the editor.
                         <p:repeat value="#{actividadView.lugaresView}" var="placeView">
                             <p:panelGrid columns="2" layout="tabular">
                                 <h:outputText value="#{placeView.descripActividad}" rendered="#{placeView.idLugar == place.id}" style="font-weight: bold"/>
+                                
                                 <p:commandLink update="@form" actionListener="#{lineTimeBean.setEdit(placeView)}" oncomplete="PF('actividadDialog').show()" title="View Detail" styleClass="ui-icon ui-icon-search" rendered="#{placeView.idLugar == place.id}">
 
                                 </p:commandLink>
@@ -76,11 +81,12 @@ and open the template in the editor.
 
                         <p:outputPanel id="actividadPanelInsert">
                             <p:panelGrid  columns="4" columnClasses="label,value" >
-                                <h:outputLabel for="codigo" value="Codigo: " /> 
-                                <h:inputText id="codigo" value="#{lineTimeBean.actInsert.codigo}" style="font-weight:bold" />
+                                
                                 <h:outputLabel for="descripcion" value="Nombre: " />
                                 <h:inputText id="descripcion" value="#{lineTimeBean.actInsert.descripcion}" style="font-weight:bold" />
-
+                                
+                                <h:outputLabel for="fake" value="" />
+                                <h:outputLabel for="fake" value="" />
 
                                 <h:outputLabel for="fechaIni" value="Fecha Inicio: " />
                                 <h:inputText id="fechaIni" value="#{lineTimeBean.actInsert.fechaIni}" style="font-weight:bold" /> 
@@ -119,13 +125,13 @@ and open the template in the editor.
                         <p:outputPanel id="actividadPanelUp" rendered="#{not empty lineTimeBean.lugarViewSelected}">
                             <p:panelGrid  columns="4" columnClasses="label,value" >
 
-                                <h:outputLabel for="codigoEdit" value="Codigo: " />
-                                <h:inputText id="codigoEdit" value="#{lineTimeBean.actEdit.codigo}" style="font-weight:bold" />  
+                               
 
                                 <h:outputLabel for="descripcionEdit" value="Nombre: " />
                                 <h:inputText id="descripcionEdit" value="#{lineTimeBean.actEdit.descripcion}" style="font-weight:bold" />                                 
 
-
+                                <h:outputLabel for="fake" value="" />
+                                <h:outputLabel for="fake" value="" />
 
                                 <h:outputLabel for="fechaIniEdit" value="Fecha Inicio: " />
                                 <h:inputText id="fechaIniEdit" value="#{lineTimeBean.actEdit.fechaIni}" style="font-weight:bold" /> 

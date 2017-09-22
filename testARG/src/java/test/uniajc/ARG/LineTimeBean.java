@@ -24,6 +24,9 @@ public class LineTimeBean {
     private List<ActividadView> actividadesView;
     private List<Lugar> gamePlaces;
     private LugarView lugarViewSelected;
+    private List<String> ids;
+    private List<String> codes;
+
     private int idAct = 0;
     private int idView = 0;
     //Combos
@@ -42,7 +45,10 @@ public class LineTimeBean {
 
         // actividades =createAct();
         //actividadesView=actOrderBy(actividades);
-        actividades = new ArrayList<ActividadLineTime>();
+        actividades = new ArrayList<>();
+        actividadesView=new ArrayList<>();
+        ids = new ArrayList<>();
+        codes = new ArrayList<>();
         v_select_line = "";
         gamePlaces = loadPlaces();
         lugarViewSelected = new LugarView();
@@ -52,8 +58,6 @@ public class LineTimeBean {
         lugarViewSelected = new LugarView();
 
     }
-
-   
 
     public List<ActividadView> actOrderBy(List<ActividadLineTime> actividades) {
         List<ActividadView> actividadesView = new ArrayList<ActividadView>();
@@ -95,7 +99,7 @@ public class LineTimeBean {
 
     public ActividadView createActividadView(ActividadLineTime act) {
         ActividadView actividadView = new ActividadView();
-        actividadView.setCodigo(act.getCodigo());
+        actividadView.setCodigo("");
         actividadView.setFechaFin(act.getFechaFin());
         actividadView.setFechaIni(act.getFechaIni());
         actividadView.setHoraFin(act.getHoraFin());
@@ -112,19 +116,17 @@ public class LineTimeBean {
         return actividadView;
     }
 
-
     public void changePlace() {
 
         //tengo el lugarview, con el id de la actividad la cambio en la lista principal de actividades
         int index = 0;
         for (ActividadLineTime act : actividades) {
             if (act.getId().equalsIgnoreCase(lugarViewSelected.getIdActividad())) {
-                System.out.println("Encontro la actividad");
-                actividades.get(index).setCodigo(actEdit.getCodigo());
+
                 actividades.get(index).setDescripcion(actEdit.getDescripcion());
 
                 if (!registroExistente(actEdit, v_select_place_change)) {
-                    System.out.println("No Existe");
+
                     actEdit.setIdLugar(v_select_place_change);
                     actividades.remove(index);
                     actividades.add(actEdit);
@@ -177,7 +179,7 @@ public class LineTimeBean {
             if (act.getId().equalsIgnoreCase(lugarViewSelected.getIdActividad())) {
 
                 actEdit.setId(act.getId());
-                actEdit.setCodigo(act.getCodigo());
+
                 actEdit.setDescripcion(act.getDescripcion());
                 actEdit.setFechaFin(act.getFechaFin());
                 actEdit.setFechaIni(act.getFechaIni());
@@ -211,7 +213,12 @@ public class LineTimeBean {
     }
 
     public void clear() {
+        getIdCode();
         actividadesView = actOrderBy(actividades);
+        
+        setIdCode();
+        ids = new ArrayList<>();
+        codes = new ArrayList<>();
         insertarID();
         itemsLine = new ArrayList<SelectItem>();
         itemsLine = loadLine();
@@ -229,8 +236,7 @@ public class LineTimeBean {
         }
 
     }
-    
-    
+
     public ArrayList<SelectItem> loadLine() {
 
         ArrayList<SelectItem> items = new ArrayList<SelectItem>();
@@ -248,6 +254,26 @@ public class LineTimeBean {
         places.add(new Lugar("2", "Blogger"));
         places.add(new Lugar("3", "Facebook"));
         return places;
+    }
+
+    public void getIdCode() {
+
+        for (ActividadView act : actividadesView) {
+            codes.add(act.getCodigo());
+             ids.add(act.getId());
+        }
+    }
+
+    
+    
+    public void setIdCode(){
+        for(int i =0 ;i < actividadesView.size();i++){
+            for(int j =0 ;j < ids.size();j++){
+                if(actividadesView.get(i).getId().equalsIgnoreCase(ids.get(j))){
+                    actividadesView.get(i).setCodigo(codes.get(j));
+                }
+            }
+        }
     }
 
     public ArrayList<SelectItem> Consultar_Lugares_combo() {
