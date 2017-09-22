@@ -195,7 +195,7 @@ public class LineTimeBean {
     }
 
     public boolean registroExistente(ActividadLineTime actividadLine, String lugar) {
-        System.out.println("Entro a registro existente");
+        
         for (ActividadLineTime act : actividades) {
 
             if (actividadLine.getFechaFin().trim().equalsIgnoreCase(act.getFechaFin().trim())
@@ -215,11 +215,11 @@ public class LineTimeBean {
     public void clear() {
         getIdCode();
         actividadesView = actOrderBy(actividades);
-        
+        insertarID();
         setIdCode();
         ids = new ArrayList<>();
         codes = new ArrayList<>();
-        insertarID();
+        
         itemsLine = new ArrayList<SelectItem>();
         itemsLine = loadLine();
         gamePlaces = loadPlaces();
@@ -258,9 +258,9 @@ public class LineTimeBean {
 
     public void getIdCode() {
 
-        for (ActividadView act : actividadesView) {
-            codes.add(act.getCodigo());
-             ids.add(act.getId());
+        for (int i =0; i < actividadesView.size();i++) {
+            codes.add(i,actividadesView.get(i).getCodigo());
+            ids.add(i,actividadesView.get(i).getId());
         }
     }
 
