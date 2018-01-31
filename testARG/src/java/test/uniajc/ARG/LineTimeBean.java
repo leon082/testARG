@@ -55,8 +55,7 @@ public class LineTimeBean {
         itemsPlaces = Consultar_Lugares_combo();
         actInsert = new ActividadLineTime();
         actEdit = new ActividadLineTime();
-        lugarViewSelected = new LugarView();
-
+       
     }
 
     public List<ActividadView> actOrderBy(List<ActividadLineTime> actividades) {
@@ -220,7 +219,7 @@ public class LineTimeBean {
         ids = new ArrayList<>();
         codes = new ArrayList<>();
         
-        itemsLine = new ArrayList<SelectItem>();
+        itemsLine = new ArrayList<>();
         itemsLine = loadLine();
         gamePlaces = loadPlaces();
         lugarViewSelected = new LugarView();
@@ -239,7 +238,7 @@ public class LineTimeBean {
 
     public ArrayList<SelectItem> loadLine() {
 
-        ArrayList<SelectItem> items = new ArrayList<SelectItem>();
+        ArrayList<SelectItem> items = new ArrayList<>();
         for (ActividadView obj : actividadesView) {
 
             items.add(new SelectItem(obj.getId(), obj.getId()));
@@ -249,7 +248,7 @@ public class LineTimeBean {
     }
 
     public List<Lugar> loadPlaces() {
-        List<Lugar> places = new ArrayList<Lugar>();
+        List<Lugar> places = new ArrayList<>();
         places.add(new Lugar("1", "Salon"));
         places.add(new Lugar("2", "Blogger"));
         places.add(new Lugar("3", "Facebook"));
@@ -278,7 +277,7 @@ public class LineTimeBean {
 
     public ArrayList<SelectItem> Consultar_Lugares_combo() {
 
-        ArrayList<SelectItem> items = new ArrayList<SelectItem>();
+        ArrayList<SelectItem> items = new ArrayList<>();
         for (Lugar obj : gamePlaces) {
 
             items.add(new SelectItem(obj.getId(), obj.getDescripcion()));
